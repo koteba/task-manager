@@ -22,45 +22,14 @@
 <form action="{{  route('tasks.store') }}" method="POST">
 	@csrf
 
-
-	<div class="mb-3">
+<div class="row">
+	<div class="mb-3 col-md-6">
 		<x-label for="name" :value="__('Name')" />
 		<x-input type="text" name="name" id="name" :placeholder="__('Name')" autofocus />
 		<x-invalid error="name" />
 	</div>
 
-	<div class="mb-3">
-		<x-label for="start_date" :value="__('Start Date')" />
-		<x-input type="date" name="start_date" id="start_date" :placeholder="__('Start Date')"  autofocus />
-		<x-invalid error="start_date" />
-	</div>
-
-	<div class="mb-3">
-		<x-label for="end_date" :value="__('End Date')" />
-		<x-input type="date" name="end_date" id="end_date" :placeholder="__('End Date')"  autofocus />
-		<x-invalid error="end_date" />
-	</div>
-	{{-- <div class="mb-3"> --}}
-		{{-- <label for="project_id" class="form-label">Project</label>
-		<select name="project_id" class="form-control" id="project_id" tabindex="1" autofocus>
-			<option value="">اختر مشروع</option>
-	
-			@if (isset($projects) && !empty($projects) && count($projects) > 0)
-				@foreach ($projects as $project)
-					<option value="{{ $project->id }}" {{ $task->project_id == $project->id ? 'selected' : '' }}>
-						{{ $project->name }}
-					</option>
-				@endforeach
-			@else
-				<option disabled>لا يوجد أي مشروع</option>
-			@endif
-		</select>
-		@error('project_id')
-		<span class="text-danger">{{ $message }}</span>
-		@enderror
-	</div> --}}
-	
-	<div class="mb-4">
+	<div class="mb-3 col-md-6">
 		<x-label for="status_id" :value="__('STATUS')" />
 			<select name="status_id" class="form-control" id="status_id" tabindex="1">
 				<option value="">اختر حالة</option>
@@ -76,32 +45,30 @@
 			@enderror
 	</div>
 
-	
-	
-	
+</div>
+<div class="row">
+	<div class="mb-3 col-md-6">
+		<x-label for="start_date" :value="__('Start Date')" />
+		<x-input type="date" name="start_date" id="start_date" :placeholder="__('Start Date')"  autofocus />
+		<x-invalid error="start_date" />
+	</div>
 
-    {{-- <div class="mb-3">
-		<x-label for="user" :value="__('USER')" />
+	<div class="mb-3 col-md-6">
+		<x-label for="end_date" :value="__('End Date')" />
+		<x-input type="date" name="end_date" id="end_date" :placeholder="__('End Date')"  autofocus />
+		<x-invalid error="end_date" />
+	</div>
 
-		<select class="form-select" data-placeholder="اختر المستخدم" name="user_ids[]" id="prepend-text-multiple-field" multiple>
-			<option value="">اختر المستخدم</option>
-			@foreach ($users as $user)
-				<option value="{{ $user->id }}">{{ $user->name }}</option>
-			@endforeach
-		</select>
-		@error('user_ids')
-		<span class="text-danger">{{ $message }}</span>
-		@enderror
-	</div>--}}
+</div>
+
+ 
 	<div class="mb-3">
 		<x-label for="user" :value="__('USER')" /> 
 
 		<select class="form-select" data-placeholder="اختر المستخدم" name="user_ids[]"  id="prepend-text-multiple-field" multiple>
 			<option value="">اختر المستخدم</option>
 			@foreach ($totals as $total)
-				@foreach($users as $user)
 					<option value="{{ $total->user_id }}">
-				@endforeach
                 {{ $total->name }}</option>
 				
 			@endforeach
@@ -112,10 +79,6 @@
 		<span class="text-danger">{{ $message }}</span>
 		@enderror
 	</div>
-
-
-
-
 
 	<div class="mb-3">
 		<x-label for="description" :value="__('Description')" />
@@ -128,10 +91,6 @@
 		<x-input type="text" name="notes" id="notes" :placeholder="__('Notes')"  autofocus />
 		<x-invalid error="notes" />
 	</div>
-
-	
-
-
 
 	<div class="text-end">
 		<x-button type="submit" class="btn btn-primary" :value=" __('SAVE')" />

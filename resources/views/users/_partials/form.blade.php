@@ -1,4 +1,4 @@
-<form action="{{ $user->id ? route('users.update', $user->id) : route('users.store') }}" method="POST">
+<form action="{{ $user->id ? route('users.update', $user->id) : route('users.store') }}" method="POST" enctype="multipart/form-data">
 	@csrf
 
 	@if($user->id)

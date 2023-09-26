@@ -29,7 +29,7 @@ class CategoryRequest extends FormRequest
         // $id = $this->route('category'); // Assuming 'category' is the name of the route parameter.
     
         return [
-            'name' => 'required|string|max:80|unique:categories,name',
+            'name' => 'required|string|max:80',
             'notes' => 'max:1000'
         ];
     }

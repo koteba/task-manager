@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Storage;
 
 
 class UserController extends Controller
@@ -40,14 +41,14 @@ class UserController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request,UserRequest $requestUser)
+	public function store(Request $request)
 	{
 
 		$data = $request->validate([
 			'name' => 'required|string',
 			'email' => 'required|string|email|unique:users',
 			'password' => 'required|confirmed|min:8',
-			'image' => 'required|max:2048',
+            'image' => 'max:2048|mimes:jpeg,jpg,png',
 			'user_type' => 'required|in:admin,user',
 		]);
 		if ($request->hasFile('image')) {
@@ -93,10 +94,12 @@ class UserController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(User $user,UserRequest $request)
+	public function edit(User $user)
 	{
+		if(Auth::user()->user_type == 1  or $user->id){
 
 		return view('users.edit', compact('user'));
+		}
 	}
 
 	/**
@@ -106,20 +109,30 @@ class UserController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, User $user,UserRequest $requestUser)
+	public function update(Request $request, User $user)
 {
     $request->validate([
         'name' => 'required|string',
         'email' => 'required|string|email|unique:users,email,' . $user->id,
         'password' => $request->password ? 'required|confirmed' : '',
-        'image' => 'nullable|image|max:2048',
+        'image' => 'mimes:jpeg,jpg,png|max:2048',
         'user_type' => 'required',
     ]);
+	if ($request->input('image')) {
+		if (Storage::exists('public/users/' . $user->image)) {
+			Storage::delete('public/users/' . $user->image);
+		}
+	
+		$file = $request->file('image');
+		$filename = $request->name . '.' . $file->extension();
+		$file->storeAs('public/users', $filename);
+		$data['image']= $filename;
+	}
 
     $data['name'] = $request->name;
     
     if ($request->password) {
-        $data['password'] = Hash::make($request->password); // استخدم القيمة المُرسلة لكلمة المرور
+        $data['password'] = Hash::make($request->password);     
     }
 
 

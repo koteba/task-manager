@@ -27,7 +27,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:40',
-            'image' => 'required',
+            'image' => 'max:2048|mimes:jpeg,jpg,png',
             'client' => 'string|max:20',
             'budget' => 'required',
             'notes' => 'max:200',
@@ -46,7 +46,8 @@ class ProjectRequest extends FormRequest
     {
         return [
             'name.required' => 'يجب أن تدخل اسم المشروع ',
-            'image.required' => 'يجب أن تدخل صورة المشروع ',
+            'image.max' => 'يجب أن يكون حجم الصورة اقل من 2048 ',
+            'image.mimes' => ' jpg,jpeg,png يجب أن يكون  الصورة من نوع  ',
             'budget.required' => 'يجب أن تدخل ميزانية المشروع ',
             'status_id.required' => 'يجب أن تدخل اسم الحالة ',
             'start_date.required' => 'يجب أن تدخل تاريخ  بداية المشروع ',

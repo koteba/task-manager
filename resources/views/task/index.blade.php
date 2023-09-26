@@ -16,8 +16,8 @@
                                 @csrf
                                 <div class="input-group">
                                     <input type="text" name="search_tasks" value="" required class="form-control rounded"
-                                        placeholder=" بحث حسب الاسم" />
-                                    <button type="submit" class="btn btn-primary rtl">بحث</button>
+                                        placeholder=" Search by name" />
+                                    <button type="submit" class="btn btn-primary rtl">Search</button>
                                 </div>
                             </form>
                         </div>
@@ -28,13 +28,13 @@
                                 @csrf
                                 <div class="input-group">
                                     <input type="date" name="to_date"  required  class="form-control rounded" placeholder="بحث حسب تاريخ الادخال  " />
-                                    <button type="submit" class="btn btn-primary">الــى</button>
+                                    <button type="submit" class="btn btn-primary">To</button>
                                 </div>
                         </div>
                         <div class="col-md-4" >
                             <div class="input-group">
                                 <input type="date" name="from_date"  required class="form-control rounded"  placeholder="بحث حسب تاريخ الادخال  " />
-                                <button type="" class="btn btn-primary">مــن</button>
+                                <button type="" class="btn btn-primary">From</button>
                             </div>
                           
                             </form>

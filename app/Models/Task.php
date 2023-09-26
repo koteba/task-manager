@@ -24,29 +24,16 @@ class Task extends Model
         'is_active',
     ];
 
-	// protected $casts = [
-    //     'status_id' => Status::class,
-    // ];
+	
 
 
     public function project()
 	{
-		return $this->belongsTo('App\Models\Project', 'project_id');
+		return $this->belongsTo(Project::class);
 	}
 
-	public function category()
-	{
-		return $this->belongsTo('App\Models\Category', 'category_id');
-	}
-// 	public function statuses()
-// {
-//     return $this->belongsTo(\App\Enums\Status::class, 'status');
-// }
 
-    // public function status()
-	// {
-	// 	return $this->belongsTo('App\Models\Status', 'status_id');
-	// }
+
 	public function taskassignment()
 {
     return $this->hasMany(TaskAssignment::class);

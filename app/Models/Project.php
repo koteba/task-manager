@@ -43,17 +43,13 @@ class Project extends Model
 	}
 	public function category()
 	{
-		return $this->belongsTo('App\Models\Category', 'category_id');
+		return $this->belongsTo(Category::class);
 	}
 
-    // public function status()
-	// {
-	// 	return $this->belongsTo('App\Models\Status', 'status_id');
-	// }
-
+  
     public function user()
 	{
-		return $this->belongsTo('App\Models\User', 'user_id');
+		return $this->belongsToMany(User::class);
 	}
 }
 

@@ -24,13 +24,14 @@ class TaskController extends Controller
         if ($request->query('search_tasks') !== null) {
             $search = $request->query('search_tasks');
 
-            $tasks= Task::where('name','LIKE', "{$search}")->paginate(3);
+            $tasks= Task::where('name','LIKE', "%{$search}%")->paginate(3);
 
         } 
         elseif ($request->query('to_date') !== null) {
             $to_date = $request->input('to_date');
             $from_date = $request->input('from_date');
-            $tasks = Task::where('');
+            $tasks = Task::where('start_date', '>' ,$from_date)->where('start_date', '<', $to_date)
+            ->orwhere('end_date', '>',$from_date)->where('end_date', '<' , $to_date)->paginate(3);
         }
         
         else{
@@ -54,10 +55,7 @@ class TaskController extends Controller
          ->join('projects','project_assignments.project_id','=','projects.id')
          ->join('users','project_assignments.user_id','=','users.id')->where('project_id', $project->id)
          ->get();
-        //   $totals =$project->projectassignment()->get();
-        // $projects = Project::all();
-        // $statuses = Status::all();
-        // $project = new Task;
+        
 		return view('task.create', compact('project','users','totals'));
     }
 
@@ -71,11 +69,9 @@ class TaskController extends Controller
     {
         $data = $request->validated();
 
-        // $data = $project->id;        
-        // Create the task
+   
         $task = Task::create($data);
         
-        // Save the selected users for the task
         if (isset($data['user_ids']) && is_array($data['user_ids'])) {
             foreach ($data['user_ids'] as $userId) {
                 $assignment = new TaskAssignment([

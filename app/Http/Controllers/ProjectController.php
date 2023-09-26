@@ -23,14 +23,14 @@ class ProjectController extends Controller
         if ($request->query('search_projects') !== null) {
             $search = $request->query('search_projects');
 
-            $projects= Project::where('name','LIKE', $search)->paginate(3);
+            $projects= Project::where('name','LIKE', "%{$search}%")->paginate(3);
 
         } 
         elseif ($request->query('to_date') !== null) {
             $to_date = $request->input('to_date');
             $from_date = $request->input('from_date');
-            $prjects = Project::where('');
-        }
+            $projects = Project::where('start_date', '>' ,$from_date)->where('start_date', '<', $to_date)
+            ->orwhere('end_date', '>',$from_date)->where('end_date', '<' , $to_date)->paginate(3);        }
         
         else{
             $projects = Project::latest()->paginate(3);
@@ -71,9 +71,6 @@ class ProjectController extends Controller
         $project = Project::create($data);
 
 
-        // Create the project
-        
-        // Save the selected users for the project
         if (isset($data['user_ids']) && is_array($data['user_ids'])) {
             foreach ($data['user_ids'] as $userId) {
                 $assignment = new ProjectAssignment([
@@ -124,15 +121,13 @@ class ProjectController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->hasFile('image')) {
-            // حذف الصورة القديمة إذا كانت موجودة
+        if ($request->input('image')) {
             if (Storage::exists('public/projectss/' . $project->image)) {
-                Storage::delete('public/projectss/' . $project->image);
             }
         
             $file = $request->file('image');
             $filename = $request->name . '.' . $file->extension();
-            $file->storeAs('public/projectss', $filename);
+                $file->storeAs('public/projectss', $filename);
             $data['image']= $filename;
         }
         $project->status_id = $request->input('status_id');
@@ -184,7 +179,7 @@ if (isset($data['user_ids']) && is_array($data['user_ids'])) {
     
 
     
-        return redirect()->route('projects.index')->withSuccess('تم حذف البيانات بنجاح.');
+        return redirect()->route('projects.index')->withSuccess('The data has been deleted successfully.');
     }
 
 
@@ -208,12 +203,12 @@ if (isset($data['user_ids']) && is_array($data['user_ids'])) {
             
             if ($project) {
                 $project->forceDelete();
-                return redirect()->back()->with('success', 'تم حذف السجل نهائيًا بنجاح');
+                return redirect()->back()->with('success', 'The record has been successfully deleted permanently');
             } else {
-                return redirect()->back()->with('error', 'لم يتم العثور على السجل');
+                return redirect()->back()->with('error', 'Not found in the table');
             }
         } catch (\Exception $ex) {
-            return redirect()->back()->with('error', 'حدث خطأ أثناء حذف السجل نهائيًا');
+            return redirect()->back()->with('error', 'An error occurred while deleting the recording');
         }
     }
     
@@ -230,12 +225,12 @@ if (isset($data['user_ids']) && is_array($data['user_ids'])) {
                 foreach ($assignments as $assignment) {
                     $assignment->restore();
                 }
-                return redirect()->back()->with('success', 'تم استعادة السجل بنجاح');
+                return redirect()->back()->with('success', 'The record has been restored successfully');
             } else {
-                return redirect()->back()->with('error', 'لم يتم العثور على السجل');
+                return redirect()->back()->with('error', 'Not found in the table');
             }
         } catch (\Exception $ex) {
-            return redirect()->back()->with('error', 'حدث خطأ أثناء استعادة السجل');
+            return redirect()->back()->with('error', 'An error occurred while restore the record');
         }
     }
 

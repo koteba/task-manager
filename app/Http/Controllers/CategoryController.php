@@ -96,12 +96,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        // Check if there are projects associated with this category
         if ($category->projects()->count() > 0) {
             return redirect()->route('category.index')->withError('Cannot delete the category because it has associated projects.');
         }
     
-        // Delete the category
         $category->delete();
     
         return redirect()->route('category.index')->withSuccess('Data successfully deleted.');

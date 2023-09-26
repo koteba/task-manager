@@ -24,6 +24,8 @@
 	@if($project->id)
 	@method("PUT")
 	@endif
+
+	
 	<center><img height="300px" id="previewImage" width="320px" class="text-center" image="image" src="{{ asset('storage/projectss/' . $project->image)}}">
 		{{-- <img id="previewImage" src="#" alt="Preview Image" width="200px" style="display: none;"> --}}
 	

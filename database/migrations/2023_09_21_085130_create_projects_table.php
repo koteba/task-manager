@@ -26,7 +26,7 @@ return new class extends Migration
 			$table->text('description')->nullable();
 			$table->boolean('is_active')->default(true); 
 			$table->integer('category_id')->unsigned();
-            $table->string('image');
+            $table->string('image')->default('project_default.jpg');
             $table->enum('status_id',['PENDING','IN_PROGRESS','COMPLETED','REJECTED']);
         });
     }

@@ -24,24 +24,41 @@
 	@if($task->id)
 	@method("PUT")
 	@endif
-
-	<div class="mb-3">
+<div class="row">
+	<div class="mb-3 col-md-6">
 		<x-label for="name" :value="__('Name')" />
 		<x-input type="text" name="name" id="name" :placeholder="__('Name')" :value="old('name', $task->name)" autofocus />
 		<x-invalid error="name" />
 	</div>
+	<div class="mb-4 col-md-6">
+		<x-label for="status_id" :value="__('STATUS')" />
+		<select name="status_id" class="form-control" id="status_id" tabindex="1">
+			<option value="">اختر حالة</option>
+			<option value="IN_PROGRESS" {{ old('status_id', $task->status_id) == 'IN_PROGRESS' ? 'selected' : '' }}>تحت التنفيذ</option>
+			<option value="COMPLETED" {{ old('status_id', $task->status_id) == 'COMPLETED' ? 'selected' : '' }}>مكتمل</option>
+			<option value="PENDING" {{ old('status_id', $task->status_id) == 'PENDING' ? 'selected' : '' }}>قيد الانتظار</option>
+			<option value="REJECTED" {{ old('status_id', $task->status_id) == 'REJECTED' ? 'selected' : '' }}>مرفوض</option>
+		</select>
+		@error('status_id')
+		<span class="text-danger">{{ $message }}</span>
+		@enderror
+	</div>
 
-	<div class="mb-3">
+</div>
+<div class="row">
+	<div class="mb-3 col-md-6">
 		<x-label for="start_date" :value="__('Start Date')" />
 		<x-input type="date" name="start_date" id="start_date" :placeholder="__('Start Date')" :value="old('start_date', $task->start_date)" autofocus />
 		<x-invalid error="start_date" />
 	</div>
 
-	<div class="mb-3">
+	<div class="mb-3 col-md-6">
 		<x-label for="end_date" :value="__('End Date')" />
 		<x-input type="date" name="end_date" id="end_date" :placeholder="__('End Date')" :value="old('end_date', $task->end_date)" autofocus />
 		<x-invalid error="end_date" />
 	</div>
+
+</div>
 	<div class="mb-3">
 		<label for="project_id" class="form-label">Project</label>
 		<select name="project_id" class="form-control" id="project_id" tabindex="1" autofocus>
@@ -63,19 +80,7 @@
 	</div>
 	
 	
-	<div class="mb-4">
-		<x-label for="status_id" :value="__('STATUS')" />
-		<select name="status_id" class="form-control" id="status_id" tabindex="1">
-			<option value="">اختر حالة</option>
-			<option value="IN_PROGRESS" {{ old('status_id', $task->status_id) == 'IN_PROGRESS' ? 'selected' : '' }}>تحت التنفيذ</option>
-			<option value="COMPLETED" {{ old('status_id', $task->status_id) == 'COMPLETED' ? 'selected' : '' }}>مكتمل</option>
-			<option value="PENDING" {{ old('status_id', $task->status_id) == 'PENDING' ? 'selected' : '' }}>قيد الانتظار</option>
-			<option value="REJECTED" {{ old('status_id', $task->status_id) == 'REJECTED' ? 'selected' : '' }}>مرفوض</option>
-		</select>
-		@error('status_id')
-		<span class="text-danger">{{ $message }}</span>
-		@enderror
-	</div>
+
 	
 	
 	
@@ -84,10 +89,10 @@
 		<x-label for="user" :value="__('USER')" />
 
 		{{-- <div class="input-group-text">USER</div> --}}
-		<select class="form-select" data-placeholder="اختر المستخدم" name="user_ids[]" id="prepend-text-multiple-field" multiple>
-			<option value="">اختر المستخدم</option>
+		<select class="form-select" data-placeholder="اختر المهندس" name="user_ids[]" id="prepend-text-multiple-field" multiple>
+			<option value="">اختر المهندس</option>
 			@foreach ($totals as $total)
-				@foreach($users as $user)
+				@foreach($users as $user)	
 					<option value="{{ $total->user_id }}"{{ $total->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
 				@endforeach
 			@endforeach
