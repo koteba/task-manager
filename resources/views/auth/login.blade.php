@@ -1,5 +1,5 @@
 <x-auth-layout title="Login">
-	<h4 class="mb-2">{{ __('Welcome to Sneat! 👋') }}</h4>
+	<h4 class="mb-2">{{ __('Welcome to TASK MANAGER	! 👋') }}</h4>
 	<p class="mb-4">
 		{{ __('Please sign-in to your account and start the adventure') }}
 	</p>

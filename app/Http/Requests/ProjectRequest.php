@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProjectRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class ProjectRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::user()->user_type == 1;
     }
 
     /**
@@ -24,14 +26,18 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:80|unique:projects,name',
-            'notes' => 'max:1000',
-            'status_id' => 'required|in:pending,IN PROGRESS,APPROVED,REJECTED',
+            'name' => 'required|string|max:40',
+            'image' => 'required',
+            'client' => 'string|max:20',
+            'budget' => 'required',
+            'notes' => 'max:200',
+            'status_id' => 'required',
             'category_id' => 'required',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'user_ids' => 'required',
             'description' => 'nullable|string',
+
 
         ];
     }
@@ -40,15 +46,17 @@ class ProjectRequest extends FormRequest
     {
         return [
             'name.required' => 'يجب أن تدخل اسم المشروع ',
+            'image.required' => 'يجب أن تدخل صورة المشروع ',
+            'budget.required' => 'يجب أن تدخل ميزانية المشروع ',
             'status_id.required' => 'يجب أن تدخل اسم الحالة ',
             'start_date.required' => 'يجب أن تدخل تاريخ  بداية المشروع ',
             'end_date.required' => 'يجب أن تدخل تاريخ  نهاية المشروع ',
             'end_date.after' => 'يجب أن يكون تاريخ  نهاية المشروع اكبر من تاريخ البداية',
             'category_id.required' => 'يجب أن تدخل تصنيف المشروع ',
             'user_ids.required' => 'يجب أن تدخل اسم المستخدم ',
-            'name.max' => ' يجب أن لا يكون طول المشروع أكثر من 80',
-            'name.unique' => 'هذا المشروع موجود بالفعل، يجب أن يكون فريدًا.',  
-            'notes.max' => ' يجب أن لا يكون طول الملاحظات أكثر من 1000'
+            'name.max' => ' يجب أن لا يكون اسم المشروع أكثر من 40',
+            'client.max' => ' يجب أن لا يكون زبون المشروع أكثر من 20',
+            'notes.max' => ' يجب أن لا يكون طول الملاحظات أكثر من 200',
         ];
     }
 }

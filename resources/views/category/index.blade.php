@@ -1,8 +1,8 @@
-<x-app-layout title="category management">
+<x-app-layout title="Category Management">
 	<div class="card">
 		<div class="card-body">
 			<h5 class="card-title">
-				{{ __('category management') }}
+				{{ __('CATEGORY MANAGEMENT') }}
 			</h5>
 
 			<div class="mb-4">

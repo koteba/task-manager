@@ -12,17 +12,20 @@
 	@method("PUT")
 	@endif
 
-	<div class="mb-3">
-		<x-label for="name" :value="__('Name')" />
-		<x-input type="text" name="name" id="name" :placeholder="__('Name')" :value="old('name', $project->name)" autofocus />
-		<x-invalid error="name" />
+	<div class="row">
+		<div class="mb-3 col-md-6">
+			<x-label for="name" :value="__('Name')" />
+			<x-input type="text" name="name" id="name" :placeholder="__('Name')" :value="old('name', $project->name)" autofocus />
+			<x-invalid error="name" />
+		</div>
+	
+		<div class="mb-3 col-md-6">
+			<x-label for="start_date" :value="__('Start Date')" />
+			<x-input type="date" name="start_date" id="start_date" :placeholder="__('Start Date')" :value="old('start_date', $project->start_date)" autofocus />
+			<x-invalid error="start_date" />
+		</div>
 	</div>
-
-	<div class="mb-3">
-		<x-label for="start_date" :value="__('Start Date')" />
-		<x-input type="date" name="start_date" id="start_date" :placeholder="__('Start Date')" :value="old('start_date', $project->start_date)" autofocus />
-		<x-invalid error="start_date" />
-	</div>
+	
 
 	<div class="mb-3">
 		<x-label for="end_date" :value="__('End Date')" />
@@ -60,6 +63,7 @@
 				<option value="IN_PROGRESS">IN PROGRESS</option>
 				<option value="APPROVED">APPROVED</option>
 				<option value="REJECTED">REJECTED</option>
+				<option value="COMPLETED">COMPLETED</option>
 			</select>
 			@error('status_id')
 			<span class="text-danger">{{ $message }}</span>

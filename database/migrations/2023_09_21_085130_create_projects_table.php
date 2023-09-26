@@ -17,13 +17,17 @@ return new class extends Migration
             $table->increments('id');
 			$table->timestamps();
 			$table->string('name');
+			$table->string('client');
+			$table->double('budget');
 			$table->date('start_date');
 			$table->date('end_date');
+            $table->softDeletes();
 			$table->text('notes')->nullable();
 			$table->text('description')->nullable();
 			$table->boolean('is_active')->default(true); 
 			$table->integer('category_id')->unsigned();
-            $table->enum('status_id',['pending','IN PROGRESS','APPROVED','REJECTED']);
+            $table->string('image');
+            $table->enum('status_id',['PENDING','IN_PROGRESS','COMPLETED','REJECTED']);
         });
     }
 

@@ -1,48 +1,16 @@
-<x-app-layout title="Task Management">
+<x-app-layout title="Task management">
 	<div class="card">
 		<div class="card-body">
 			<h5 class="card-title">
-				{{ __('TASK MANAGEMENT') }}
+				{{ __('TASK MANAGEMENT FOR PROJECT') }}
 			</h5>
 
-			<div class="mb-3">
-				{{-- <a href="{{ route('tasks.create') }}" class="btn btn-primary">
-					{{ __('Create new') }}
-				</a> --}}
-                <div style="display:block;">
-                    <div class="row justify-content-end">
-                        <div class="col-md-6">
-                            <form action="{{ route('tasks.index') }}" method="GET">
-                                @csrf
-                                <div class="input-group">
-                                    <input type="text" name="search_tasks" value="" required class="form-control rounded"
-                                        placeholder=" بحث حسب الاسم" />
-                                    <button type="submit" class="btn btn-primary rtl">بحث</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="row justify-content-end" style="margin-top:14px;">
-                        <div class="col-md-4">
-                            <form action="#" method="GET">
-                                @csrf
-                                <div class="input-group">
-                                    <input type="date" name="to_date"  required  class="form-control rounded" placeholder="بحث حسب تاريخ الادخال  " />
-                                    <button type="submit" class="btn btn-primary">الــى</button>
-                                </div>
-                        </div>
-                        <div class="col-md-4" >
-                            <div class="input-group">
-                                <input type="date" name="from_date"  required class="form-control rounded"  placeholder="بحث حسب تاريخ الادخال  " />
-                                <button type="" class="btn btn-primary">مــن</button>
-                            </div>
-                          
-                            </form>
-                        </div>
-                    </div>
-                </div>
-			</div>
-
+		
+            <div class="mb-4">
+                <a href="{{ route('projects.index') }}" class="btn btn-dark">
+                    {{ __('Back to list') }}
+                </a>
+            </div>
             <!-- table of tasks -->
             <div class="table-responsive">
                 <table class="table table-striped table-bordered mb-4">
@@ -123,7 +91,7 @@
                         event.preventDefault()
                         let form = document.getElementById('delete-form');
                         form.setAttribute('action', element.getAttribute('href'))
-                        swalConfirm('Are you sure ?', `سيتم حذف التاسك ..`, 'Yes, delete it!', () => {
+                        swalConfirm('Are you sure ?', `سيتم حذف التاسك.`, 'Yes, delete it!', () => {
                             form.submit()
                         })
                     }

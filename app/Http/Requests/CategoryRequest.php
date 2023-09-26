@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class CategoryRequest extends FormRequest
 {
@@ -13,7 +15,8 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::user()->user_type == 1;
+
     }
 
     /**

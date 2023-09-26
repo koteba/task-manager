@@ -36,7 +36,8 @@
 				</svg>
 			</span>
 			<span class="app-brand-text demo menu-text fw-bolder ms-2">
-				{{ config('app.name') }}
+				TaskHub
+
 			</span>
 		</a>
 
@@ -57,13 +58,22 @@
 				</div>
 			</a>
 		</li>
+			<!-- Dashboard -->
+			<li class="menu-item {{ menuIsActive('projectsdetails') }}">
+				<a href="{{ route('projectsdetails') }}" class="menu-link">
+					<i class="menu-icon tf-icons bx bx-home"></i>
+					<div data-i18n="Analytics">
+						{{ __('Projects Details') }}
+					</div>
+				</a>
+			</li>
 
 		<li class="menu-header small text-uppercase">
 			<span class="menu-header-text">
 				{{ __('Management pages') }}
 			</span>
 		</li>
-
+@if(Auth::user()->user_type==1)
 		<li class="menu-item {{ menuIsActive('users.*') }}">
 			<a href="{{ route('users.index') }}" class="menu-link">
 				<i class="menu-icon tf-icons bx bx-user"></i>
@@ -72,7 +82,7 @@
 				</div>
 			</a>
 		</li>
-
+@endif
 		<li class="menu-item {{ menuIsActive('projects.*') }}">
 			<a href="{{ route('projects.index') }}" class="menu-link">
 				<i class="menu-icon tf-icons bx bx-detail"></i>

@@ -5,7 +5,7 @@
 
 
 
-<form action="{{ $task->id ? route('tasks.update', $task->id) : route('tasks.store') }}" method="POST">
+<form action="{{  route('tasks.update', $task->id) : route('tasks.store') }}" method="POST">
 	@csrf
 
 	@if($task->id)
@@ -73,8 +73,10 @@
 		{{-- <div class="input-group-text">USER</div> --}}
 		<select class="form-select" data-placeholder="اختر المستخدم" name="user_ids[]" id="prepend-text-multiple-field" multiple>
 			<option value="">اختر المستخدم</option>
-			@foreach ($users as $user)
-				<option value="{{ $user->id }}"{{ $task->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+			@foreach ($totals as $total)
+				@foreach($users as $user)
+					<option value="{{ $total->user_id }}"{{ $total->user_id == $user->id ? 'selected' : '' }}>{{ $total->name }}</option>
+				@endforeach
 			@endforeach
 		</select>
 		@error('user_ids')

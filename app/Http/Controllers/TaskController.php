@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
 use App\Enums\Status;
-
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -18,12 +18,27 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     
     {
-        // $statuses = Status::all();
+        if ($request->query('search_tasks') !== null) {
+            $search = $request->query('search_tasks');
 
-        $tasks = Task::latest()->paginate(3);
+            $tasks= Task::where('name','LIKE', "{$search}")->paginate(3);
+
+        } 
+        elseif ($request->query('to_date') !== null) {
+            $to_date = $request->input('to_date');
+            $from_date = $request->input('from_date');
+            $tasks = Task::where('');
+        }
+        
+        else{
+            $tasks = Task::latest()->paginate(3);
+
+
+        }
+
 		return view('task.index', compact('tasks'));
     }
 
@@ -32,13 +47,18 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project)
     {
-        $users = User::all();
-        $projects = Project::all();
+         $users = User::all();
+        $totals=DB::table('project_assignments')
+         ->join('projects','project_assignments.project_id','=','projects.id')
+         ->join('users','project_assignments.user_id','=','users.id')->where('project_id', $project->id)
+         ->get();
+        //   $totals =$project->projectassignment()->get();
+        // $projects = Project::all();
         // $statuses = Status::all();
-        $task = new Task;
-		return view('task.create', compact('task','users','projects'));
+        // $project = new Task;
+		return view('task.create', compact('project','users','totals'));
     }
 
     /**
@@ -47,10 +67,11 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskRequest $request)
+    public function store(TaskRequest $request,Project $project)
     {
         $data = $request->validated();
-        
+
+        // $data = $project->id;        
         // Create the task
         $task = Task::create($data);
         
@@ -65,9 +86,14 @@ class TaskController extends Controller
                 $assignment->save();
             }
         }
+        if ($request->has('save_and_add_new')) {
+            return redirect()->back()->withSuccess('Data successfully created.');
+
+        }
+        else{
         
-        return redirect()->route('tasks.index')->withSuccess('Data successfully created.');
-    }
+        return redirect()->route('all.show', ['project' => $task->project->id])->withSuccess('Data successfully created.');
+    }}
     
 
     /**
@@ -76,9 +102,11 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show($project)
     {
-        //
+        $tasks=Task::where('project_id',$project)->paginate(3);
+        return view('task.show')->with('tasks',$tasks);
+        // return$tasks=Task::find($project);
     }
 
     /**
@@ -91,7 +119,13 @@ class TaskController extends Controller
     {
         $users = User::all();
         $projects = Project::all();
-        return view('task.edit', compact('task','users','projects'));
+        $task=Task::first();
+        // return $task->task->user_id;
+        $totals=DB::table('task_assignments')
+        ->join('tasks','task_assignments.task_id','=','tasks.id')
+        ->join('users','task_assignments.user_id','=','users.id')
+        ->get();
+        return view('task.edit', compact('task','users','projects','totals'));
         
     }
 
@@ -105,10 +139,7 @@ class TaskController extends Controller
         public function update(TaskRequest $request, Task $task)
         {
             $data = $request->validated();
-            // if (!in_array($data['status_id'], ['PENDING', 'IN_PROGRESS', 'APPROVED', 'REJECTED'])) {
-            //     return redirect()->back()->withError('Invalid status_id value.');
-            // }
-            // dd($data);
+   
             $task->status_id = $request->input('status_id');
 
             $task->update($data);
@@ -133,7 +164,7 @@ class TaskController extends Controller
         }
     }
         
-            return redirect()->route('tasks.index')->withSuccess('Data successfully updated.');
+            return redirect()->route('all.show', ['project' => $task->project->id])->withSuccess('Data successfully updated.');
         }
 
     /**

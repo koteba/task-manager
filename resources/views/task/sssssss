@@ -1,8 +1,8 @@
-<x-app-layout title="Task edit">
+<x-app-layout title="Tasks create">
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">
-                {{ __('Task edit') }}
+                {{ __('Tasks create') }}
             </h5>
 
             <div class="mb-4">
@@ -11,7 +11,8 @@
                 </a>
             </div>
 
-       <!-- this is for select2 -->
+    
+		<!-- this is for select2 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
@@ -67,10 +68,10 @@
 		<x-label for="status_id" :value="__('STATUS')" />
 		<select name="status_id" class="form-control" id="status_id" tabindex="1">
 			<option value="">اختر حالة</option>
-			<option value="IN_PROGRESS" {{ old('status_id', $task->status_id) == 'IN_PROGRESS' ? 'selected' : '' }}>تحت التنفيذ</option>
-			<option value="COMPLETED" {{ old('status_id', $task->status_id) == 'COMPLETED' ? 'selected' : '' }}>مكتمل</option>
-			<option value="PENDING" {{ old('status_id', $task->status_id) == 'PENDING' ? 'selected' : '' }}>قيد الانتظار</option>
-			<option value="REJECTED" {{ old('status_id', $task->status_id) == 'REJECTED' ? 'selected' : '' }}>مرفوض</option>
+			<option value="IN_PROGRESS" {{ old('status_id', $task->status_id) == 'IN_PROGRESS' ? 'selected' : '' }}>In Progress</option>
+			<option value="APPROVED" {{ old('status_id', $task->status_id) == 'APPROVED' ? 'selected' : '' }}>Approved</option>
+			<option value="PENDING" {{ old('status_id', $task->status_id) == 'PENDING' ? 'selected' : '' }}>Pending</option>
+			<option value="REJECTED" {{ old('status_id', $task->status_id) == 'REJECTED' ? 'selected' : '' }}>Rejected</option>
 		</select>
 		@error('status_id')
 		<span class="text-danger">{{ $message }}</span>
@@ -80,16 +81,14 @@
 	
 	
 
-	<div class="mb-3">
+    <div class="mb-3">
 		<x-label for="user" :value="__('USER')" />
 
 		{{-- <div class="input-group-text">USER</div> --}}
 		<select class="form-select" data-placeholder="اختر المستخدم" name="user_ids[]" id="prepend-text-multiple-field" multiple>
 			<option value="">اختر المستخدم</option>
-			@foreach ($totals as $total)
-				@foreach($users as $user)
-					<option value="{{ $total->user_id }}"{{ $total->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
-				@endforeach
+			@foreach ($users as $user)
+				<option value="{{ $user->id }}">{{ $user->name }}</option>
 			@endforeach
 		</select>
 		@error('user_ids')
@@ -137,6 +136,33 @@ $( '#prepend-text-multiple-field' ).select2( {
 
 </script>
 
+
         </div>
     </div>
 </x-app-layout>
+
+
+
+
+	
+<div class="mb-3">
+		<x-label for="user" :value="__('USER')" />
+
+		{{-- <div class="input-group-text">USER</div> --}}
+		<select class="form-select" data-placeholder="اختر المستخدم" name="user_ids[]" id="prepend-text-multiple-field" multiple>
+			<option value="">اختر المستخدم</option>
+			@foreach ($totals as $total)
+				@foreach($users as $user)
+					<option value="{{ $total->user_id }}">{{ $total->name }}</option>
+				@endforeach
+			@endforeach
+		</select>
+		@error('user_ids')
+		<span class="text-danger">{{ $message }}</span>
+		@enderror
+	</div>
+
+
+
+
+

@@ -39,12 +39,22 @@ class RegisterController extends Controller
 			'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
 			'password' => ['required', 'confirmed', Rules\Password::defaults()],
 			'terms' => ['required'],
+			'image' => ['nullable', 'image', 'max:2048'],  
+			'user_type' => ['required', 'boolean'],
 		]);
-
+	
+		if ($request->hasFile('image')) {
+			$imagePath = $request->file('image')->store('images'); 
+		} else {
+			$imagePath = null; 
+		}
+	
 		$user = User::create([
 			'name' => $request->name,
 			'email' => $request->email,
 			'password' => Hash::make($request->password),
+			'image' => $imagePath, // حقل الصورة
+			'user_type' => $request->user_type, // حقل نوع المستخدم
 		]);
 
 		event(new Registered($user));
