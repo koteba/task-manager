@@ -19,15 +19,9 @@
                 @endif
               
     
-            @if ($user->image)
                 <center><img height="300px" id="previewImage" width="320px" class="text-center" image="image" src="{{ asset('storage/users/' . $user->image)}}">
                 
                 </center> 
-                @else
-                <center>
-                <img height="300px" src="{{ asset('storage/users/user.default.jpg') }}" alt="Default Profile Image">
-            </center>
-                @endif
             
             
             <div class="row">

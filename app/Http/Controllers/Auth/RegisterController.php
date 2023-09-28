@@ -39,8 +39,6 @@ class RegisterController extends Controller
 			'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
 			'password' => ['required', 'confirmed', Rules\Password::defaults()],
 			'terms' => ['required'],
-			'image' => [ 'image', 'max:2048'],  
-			'user_type' => ['required', 'boolean'],
 		]);
 	
 	

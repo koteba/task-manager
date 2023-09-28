@@ -69,7 +69,7 @@
 				<option value="IN_PROGRESS" {{ old('status_id', $project->status_id) == 'IN_PROGRESS' ? 'selected' : '' }}>تحت التنفيذ</option>
 				<option value="COMPLETED" {{ old('status_id', $project->status_id) == 'COMPLETED' ? 'selected' : '' }}>مكتمل</option>
 				<option value="PENDING" {{ old('status_id', $project->status_id) == 'PENDING' ? 'selected' : '' }}>قيد الانتظار</option>
-				<option value="REJECTED" {{ old('status_id', $project->status_id) == 'REJECTED' ? 'selected' : '' }}>مرفوض</option>
+				<option value="ACCEPTED" {{ old('status_id', $project->status_id) == 'ACCEPTED' ? 'selected' : '' }}>مقبول</option>
 			</select>
 			@error('status_id')
 			<span class="text-danger">{{ $message }}</span>

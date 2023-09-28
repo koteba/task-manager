@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tasks', TaskController::class);
     Route::resource('projects', ProjectController::class);
     Route::get('/projects/{project}/tasks/create', [TaskController::class, 'create'])->name('task.create');
+    Route::get('/projects/{project}/tasks/{task}/edit', [TaskController::class, 'edit'])->name('all.edit');
     Route::get('/projects/{project}/tasks/show', [TaskController::class, 'show'])->name('all.show');
     Route::get('/archive', [ProjectController::class, 'archive'])->name('projects.archive');
     Route::delete('/trash/{id}', [ProjectController::class, 'trash'])->name('projects.trash');

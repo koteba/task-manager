@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
 use App\Enums\Status;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
@@ -111,17 +112,19 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit(Project $project,Task $task)
     {
+       
         $users = User::all();
         $projects = Project::all();
-        $task=Task::first();
-        // return $task->task->user_id;
-        $totals=DB::table('task_assignments')
-        ->join('tasks','task_assignments.task_id','=','tasks.id')
-        ->join('users','task_assignments.user_id','=','users.id')
-        ->get();
-        return view('task.edit', compact('task','users','projects','totals'));
+        $project= Project::find($task->project_id);
+$allusersproject = $project->projectassignment;
+ $alluserstasks = $task->taskassignment;
+foreach($allusersproject as $dd)
+ $dd->user->name;
+
+
+        return view('task.edit', compact('task','users','projects','allusersproject','alluserstasks'));
         
     }
 
@@ -135,30 +138,26 @@ class TaskController extends Controller
         public function update(TaskRequest $request, Task $task)
         {
             $data = $request->validated();
+            
    
             $task->status_id = $request->input('status_id');
-
+            
             $task->update($data);
-    if (isset($data['user_ids']) && is_array($data['user_ids'])) {
-        foreach ($data['user_ids'] as $userId) {
-            $assignment = TaskAssignment::where('task_id', $task->id)
-                ->where('user_id', $userId)
-                ->first();
+            if (isset($data['user_ids']) && is_array($data['user_ids'])) {
 
-            if ($assignment) {
-                $assignment->user_id = $userId;
-                $assignment->task_id = $task->id;
-                $assignment->save();
-            } else {
-                $newAssignment = new TaskAssignment([
-                    'user_id' => $userId,
-                    'task_id' => $task->id
-                ]);
+                 TaskAssignment::where('task_id', $task->id)->delete();
+                    foreach ($data['user_ids'] as $userId) {
+                        $assignment = new TaskAssignment([
+                            'user_id' => $userId,
+                            'task_id' => $task->id
+                        ]);
+            
+                        $assignment->save();
+                    }
 
-                $newAssignment->save();
-            }
-        }
-    }
+                }
+
+  
         
             return redirect()->route('all.show', ['project' => $task->project->id])->withSuccess('Data successfully updated.');
         }
@@ -169,12 +168,12 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy(Task $task,TaskRequest $request)
     {
+
         $task->taskassignment()->delete();
         $task->delete();
-		return redirect()->route('tasks.index')->withSuccess('Data successfully deleted.');
-       
+		return redirect()->route('tasks.index')->withError('Data successfully deleted.');
     }
 
 

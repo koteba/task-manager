@@ -5,6 +5,13 @@
 				{{ __('TASK MANAGEMENT') }}
 			</h5>
 
+            <div class="mb-4">
+				
+                <a href="{{ route('tasks.index') }}" class="btn btn-info">
+					{{ __('Refresh ') }}
+				</a>
+			</div>
+
 			<div class="mb-3">
 				{{-- <a href="{{ route('tasks.create') }}" class="btn btn-primary">
 					{{ __('Create new') }}
@@ -88,13 +95,9 @@
                             </td>
 
                             
-                                {{-- <td>
-                                    <span class="badge bg-{{ $task->status_id ? 'success' : 'danger' }}">
-                                        {{ $task->email_verified_at ? __('Verify') : __('Not verify') }}
-                                    </span>
-                                </td> --}}
+                        
                                 <td>
-                                    {!! actionBtn(route('tasks.edit', $task->id), 'info', 'edit') !!}
+                                    {{-- {!! actionBtn(route('tasks.edit', $task->id), 'info', 'edit') !!} --}}
                                     {!! actionBtn(route('tasks.destroy', $task->id), 'danger', 'trash', ["onclick='del(this)'"]) !!}
                                 </td>
                             </tr>
@@ -123,7 +126,7 @@
                         event.preventDefault()
                         let form = document.getElementById('delete-form');
                         form.setAttribute('action', element.getAttribute('href'))
-                        swalConfirm('Are you sure ?', `سيتم حذف التاسك ..`, 'Yes, delete it!', () => {
+                        swalConfirm('Are you sure ?', `The task will be deleted  ..`, 'Yes, delete it!', () => {
                             form.submit()
                         })
                     }

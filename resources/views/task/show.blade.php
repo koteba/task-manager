@@ -62,7 +62,7 @@
                                     </span>
                                 </td> --}}
                                 <td>
-                                    {!! actionBtn(route('tasks.edit', $task->id), 'info', 'edit') !!}
+                                    {!! actionBtn(route('all.edit',['project' => $task->project_id,'task'=> $task->id]), 'info', 'edit') !!}
                                     {!! actionBtn(route('tasks.destroy', $task->id), 'danger', 'trash', ["onclick='del(this)'"]) !!}
                                 </td>
                             </tr>
@@ -91,7 +91,7 @@
                         event.preventDefault()
                         let form = document.getElementById('delete-form');
                         form.setAttribute('action', element.getAttribute('href'))
-                        swalConfirm('Are you sure ?', `سيتم حذف التاسك.`, 'Yes, delete it!', () => {
+                        swalConfirm('Are you sure ?', `The task will be deleted.`, 'Yes, delete it!', () => {
                             form.submit()
                         })
                     }

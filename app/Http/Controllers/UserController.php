@@ -118,16 +118,33 @@ class UserController extends Controller
         'image' => 'mimes:jpeg,jpg,png|max:2048',
         'user_type' => 'required',
     ]);
-	if ($request->input('image')) {
-		if (Storage::exists('public/users/' . $user->image)) {
-			Storage::delete('public/users/' . $user->image);
-		}
+
+    // if ($request->hasFile('image')) {
+    //     $imagePath = $request->file('image')->store('us', 'public');
+    //     $data['image'] = $imagePath;
+    // } elseif ($user->image === 'user_default.jpg' || empty($user->image)) {
+    //     $data['image'] = 'user_default.jpg';
+    // }
+
+
 	
-		$file = $request->file('image');
+		// $file = $request->file('image');
+		// $filename = $request->name . '.' . $file->extension();
+		// $file->storeAs('public/users', $filename);
+		// $data['image']= $filename;
+	// }
+	if ($request->hasFile('image')) {
+		$file= $request->file('image');
+		Storage::delete('public/users/' . $file);
+		// $file = $request->file('image');
 		$filename = $request->name . '.' . $file->extension();
 		$file->storeAs('public/users', $filename);
-		$data['image']= $filename;
+			$data['image']= $filename;
+	  
+	}else{
+		$filename=$user->image;
 	}
+
 
     $data['name'] = $request->name;
     
@@ -157,9 +174,10 @@ class UserController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function delete(User $user)
+	public function delete(User $user,UserRequest $request)
 	{
+		if(Auth::user()->user_type == 1 ){
 		$user->delete();
 		return to_route('users.index')->withSuccess('Data successfully deleted.');
-	}
+	}}
 }

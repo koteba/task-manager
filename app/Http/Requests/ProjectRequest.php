@@ -54,7 +54,7 @@ class ProjectRequest extends FormRequest
             'end_date.required' => 'يجب أن تدخل تاريخ  نهاية المشروع ',
             'end_date.after' => 'يجب أن يكون تاريخ  نهاية المشروع اكبر من تاريخ البداية',
             'category_id.required' => 'يجب أن تدخل تصنيف المشروع ',
-            'user_ids.required' => 'يجب أن تدخل اسم المستخدم ',
+            'user_ids.required' => 'يجب أن تدخل اسم المبرمج ',
             'name.max' => ' يجب أن لا يكون اسم المشروع أكثر من 40',
             'client.max' => ' يجب أن لا يكون زبون المشروع أكثر من 20',
             'notes.max' => ' يجب أن لا يكون طول الملاحظات أكثر من 200',

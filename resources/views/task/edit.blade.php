@@ -37,7 +37,7 @@
 			<option value="IN_PROGRESS" {{ old('status_id', $task->status_id) == 'IN_PROGRESS' ? 'selected' : '' }}>تحت التنفيذ</option>
 			<option value="COMPLETED" {{ old('status_id', $task->status_id) == 'COMPLETED' ? 'selected' : '' }}>مكتمل</option>
 			<option value="PENDING" {{ old('status_id', $task->status_id) == 'PENDING' ? 'selected' : '' }}>قيد الانتظار</option>
-			<option value="REJECTED" {{ old('status_id', $task->status_id) == 'REJECTED' ? 'selected' : '' }}>مرفوض</option>
+			<option value="ACCEPTED" {{ old('status_id', $task->status_id) == 'ACCEPTED' ? 'selected' : '' }}>مقبول</option>
 		</select>
 		@error('status_id')
 		<span class="text-danger">{{ $message }}</span>
@@ -59,48 +59,29 @@
 	</div>
 
 </div>
-	<div class="mb-3">
-		<label for="project_id" class="form-label">Project</label>
-		<select name="project_id" class="form-control" id="project_id" tabindex="1" autofocus>
-			<option value="">اختر مشروع</option>
-	
-			@if (isset($projects) && !empty($projects) && count($projects) > 0)
-				@foreach ($projects as $project)
-					<option value="{{ $project->id }}" {{ $task->project_id == $project->id ? 'selected' : '' }}>
-						{{ $project->name }}
-					</option>
-				@endforeach
-			@else
-				<option disabled>لا يوجد أي مشروع</option>
-			@endif
-		</select>
-		@error('project_id')
-		<span class="text-danger">{{ $message }}</span>
-		@enderror
-	</div>
-	
-	
-
-	
 	
 	
 
 	<div class="mb-3">
 		<x-label for="user" :value="__('USER')" />
-
-		{{-- <div class="input-group-text">USER</div> --}}
-		<select class="form-select" data-placeholder="اختر المهندس" name="user_ids[]" id="prepend-text-multiple-field" multiple>
-			<option value="">اختر المهندس</option>
-			@foreach ($totals as $total)
-				@foreach($users as $user)	
-					<option value="{{ $total->user_id }}"{{ $total->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
-				@endforeach
+	
+		<select class="form-select" data-placeholder="اختر موظف" name="user_ids[]" id="prepend-text-multiple-field" multiple>
+			<option value="">اختر موظف</option>
+			@php
+			$userIdsInTotals = collect($alluserstasks)->pluck('user_id')->toArray();
+			@endphp
+	
+			@foreach($allusersproject as $user)
+				<option value="{{ $user->user_id }}" {{ in_array($user->user_id, $userIdsInTotals) ? 'selected' : '' }}>
+					{{ $user->user->name }}
+				</option>
 			@endforeach
 		</select>
 		@error('user_ids')
 		<span class="text-danger">{{ $message }}</span>
 		@enderror
 	</div>
+	
 
 
 

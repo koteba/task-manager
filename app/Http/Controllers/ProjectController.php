@@ -121,43 +121,41 @@ class ProjectController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->input('image')) {
-            if (Storage::exists('public/projectss/' . $project->image)) {
-            }
-        
-            $file = $request->file('image');
+        if ($request->hasFile('image')) {
+            $file= $request->file('image');
+            Storage::delete('public/projects/' . $file);
+            // $file = $request->file('image');
             $filename = $request->name . '.' . $file->extension();
-                $file->storeAs('public/projectss', $filename);
-            $data['image']= $filename;
+            $file->storeAs('public/projectss', $filename);
+                $data['image']= $filename;
+            // $fileName= date('YmdHi').$file->getClientOriginalName();
+            // $file-> move(public_path('students'), $fileName);
+          
+        }else{
+            $filename=$project->image;
         }
+
+ 
         $project->status_id = $request->input('status_id');
      
         
         $project->update($data);
-        
-if (isset($data['user_ids']) && is_array($data['user_ids'])) {
-    foreach ($data['user_ids'] as $userId) {
-        $assignment = ProjectAssignment::where('project_id', $project->id)
-            ->where('user_id', $userId)
-            ->first();
+        if (isset($data['user_ids']) && is_array($data['user_ids'])) {
+            ProjectAssignment::where('project_id', $project->id)->delete();
 
-        if ($assignment) {
-            $assignment->user_id = $userId;
-            $assignment->project_id = $project->id;
-            $assignment->save();
-        } else {
-            $newAssignment = new ProjectAssignment([
-                'user_id' => $userId,
-                'project_id' => $project->id
-            ]);
-
-            $newAssignment->save();
-        }
-    }
-}
+            foreach ($data['user_ids'] as $userId) {
+                $assignment = new ProjectAssignment([
+                    'user_id' => $userId,
+                    'project_id' => $project->id
+                ]);
     
-        return redirect()->route('projects.index')->withSuccess('Data successfully updated.');
-    }
+                $assignment->save();
+            }}
+        
+
+            return redirect()->route('projects.index')->withSuccess('Data successfully updated.');
+
+}
 
     /**
      * Remove the specified resource from storage.
@@ -179,7 +177,7 @@ if (isset($data['user_ids']) && is_array($data['user_ids'])) {
     
 
     
-        return redirect()->route('projects.index')->withSuccess('The data has been deleted successfully.');
+        return redirect()->route('projects.index')->withError('The data has been deleted successfully.');
     }
 
 

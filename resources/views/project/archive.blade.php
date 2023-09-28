@@ -22,7 +22,6 @@
                             <th>{{ __('End Date') }}</th>
                             <th>{{ __('Status') }}</th>
                             <th>{{ __('Category') }}</th>
-                            <th>{{ __('User') }}</th>
                             {{-- <th>{{ __('Is Verify') }}</th> --}}
                             <th>{{ __('#') }}</th>
                         </tr>
@@ -37,27 +36,7 @@
                             <td>{{ $project->status_id }}</td>
                             <td>{{ $project->category->name }}</td>
 
-                                
-                            
-                            <td>
-                                @if ($project->projectassignment)
-                                    @foreach ($project->projectassignment as $assignment)
-                                        @php
-                                            $user = $assignment->user;
-                                        @endphp
-                                        {{ $user->name }},
-                                        {{-- يمكنك استخدام أي معلومات أخرى من المستخدم هنا --}}
-                                    @endforeach
-                                @endif
 
-                            </td>
-
-                            
-                                {{-- <td>
-                                    <span class="badge bg-{{ $project->status_id ? 'success' : 'danger' }}">
-                                        {{ $project->email_verified_at ? __('Verify') : __('Not verify') }}
-                                    </span>
-                                </td> --}}
                                 <td>
                                     {{-- <a href="{{ route('projects.restore', $project->id) }}" class="btn btn-sm  btn-primary"> <i
                                         class="fas fa-undo"></i> استعادة</a> --}}

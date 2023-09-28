@@ -22,7 +22,7 @@ return new class extends Migration
 			$table->text('notes')->nullable();
 			$table->text('description')->nullable();
 			$table->boolean('is_active')->default(true); 
-            $table->enum('status_id',['PENDING','IN_PROGRESS','COMPLETED','REJECTED']);
+            $table->enum('status_id',['PENDING','IN_PROGRESS','COMPLETED','ACCEPTED']);
 			// $table->string('status_id')->default('pending');
 			$table->integer('project_id')->unsigned();
         });

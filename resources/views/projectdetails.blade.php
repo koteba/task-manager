@@ -49,34 +49,46 @@
 						</div>
 						
 						<div class="progress bg-success-100">
-						  <div class="progress-bar rounded bg-success" role="progressbar" aria-label="Success example" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+						  <div class="progress-bar rounded bg-success" role="progressbar" aria-label="Success example" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 						@elseif($project->status_id == 'IN_PROGRESS')
 						<div class="d-flex justify-content-between text-700 fw-semi-bold">
 							<p class="mb-2"> IN PROGRESS</p>
-							<p class="mb-2 text-1100">67%</p>
+						      {{-- @if(isset($project->completedTasks) && isset($project->totalTasks)) --}}
+							 {{-- <div>{{$project->tasks[0]->is_active}}</div> --}}
+							 @php
+							 $i=0;
+							 foreach($project->tasks as $task)
+								if($task->status_id == 'COMPLETED')
+								$i++;								
+								@endphp
+
+            <p class="mb-2 text-1100">
+				
+				{{ ($i / $project->tasks->count()) * 100 }}%</p>
+        {{-- @endif --}}
 						  </div>
 						  
 						  <div class="progress bg-warning-100">
-							<div class="progress-bar rounded bg-warning" role="progressbar" aria-label="Success example" style="width: 67%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar rounded bg-warning" role="progressbar" aria-label="Success example" style="width: {{ ($i / $project->tasks->count()) * 100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 						  </div>
 						  @elseif($project->status_id == 'PENDING')
 						  <div class="d-flex justify-content-between text-700 fw-semi-bold">
 							  <p class="mb-2"> PENDING</p>
-							  <p class="mb-2 text-1100">10%</p>
+							  <p class="mb-2 text-1100">0%</p>
 							</div>
 							
-							<div class="progress bg-info-100">
-							  <div class="progress-bar rounded bg-info" role="progressbar" aria-label="Success example" style="width: 10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress bg-danger-100">
+							  <div class="progress-bar rounded bg-danger" role="progressbar" aria-label="Success example" style="width: 10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
-							@elseif($project->status_id == 'REJECTED')
+							@elseif($project->status_id == 'ACCEPTED')
 							<div class="d-flex justify-content-between text-700 fw-semi-bold">
-								<p class="mb-2"> REJECTED</p>
-								<p class="mb-2 text-1100">0%</p>
+								<p class="mb-2"> ACCEPTED</p>
+								<p class="mb-2 text-1100">10%</p>
 							  </div>
 							  
-							  <div class="progress bg-danger-100">
-								<div class="progress-bar rounded bg-danger" role="progressbar" aria-label="Success example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+							  <div class="progress bg-info-100">
+								<div class="progress-bar rounded bg-info" role="progressbar" aria-label="Success example" style="width: 20%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 							  </div>
 						  @endif
 						<div class="d-flex align-items-center mt-4">
@@ -95,10 +107,14 @@
 						</div>
 						<div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
 							<div class="d-flex flex-row align-items-center mb-1">
-							  <h4 class="mb-1 me-1">$13.99</h4>
-							  <span class="text-danger"><s>$20.99</s></span>
+							  <h4 class="mb-1 me-1">developers for this project</h4>
+							  {{-- <span class="text-danger"><s>$20.99</s></span> --}}
 							</div>
-							<h6 class="text-success">Free shipping</h6>
+							<h6 class="text-success">@foreach($project->projectassignment as $user)
+						<li>	{{$user->user->name}}</li>
+
+							@endforeach
+							</h6>
 							<div class="d-flex flex-column mt-4">
 							  <button class="btn btn-primary btn-sm" type="button">Details</button>
 							  <button class="btn btn-outline-primary btn-sm mt-2" type="button">
@@ -136,26 +152,6 @@
 
 			  </div>
 
-              {{-- <div class="col-lg-8 mb-4">
-		<div class="card m-2">
-			<h5 class="card-title text-primary">
-				{{ __('Total Users ' . ' ') }}
-			</h5>
-			<p class="fs-30 mb-2" style="font-size: 24px; font-weight: bold;">{{ $totalUsers }}</p>
-			<p style="font-size: 14px;">22.00% (30 days)</p>
-		</div>
-
-		<div class="card m-2">
-			<p class="mb-2" style="font-size: 18px; font-weight: bold;">Total Projects</p>
-			<p class="fs-30 mb-2" style="font-size: 24px; font-weight: bold;">{{$totalProjects}}</p>
-			<p style="font-size: 14px;">22.00% (30 days)</p>
-		</div>
-		
-	<div class="card m-2">
-		<p class="mb-2" style="font-size: 18px; font-weight: bold;">Comoleted Projects</p>
-		<p class="fs-30 mb-2" style="font-size: 24px; font-weight: bold;">{{$totalCompletedProjects}}</p>
-		<p style="font-size: 14px;">22.00% (30 days)</p>
-	</div> --}}
 </div>
 
 

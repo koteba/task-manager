@@ -79,24 +79,7 @@
 
                                 
                             
-                            {{-- <td>
-                                @if ($project->projectassignment)
-                                    @foreach ($project->projectassignment as $assignment)
-                                        @php
-                                            $user = $assignment->user;
-                                        @endphp
-                                        {{ $user->name }},
-                                    @endforeach
-                                @endif
-
-                            </td> --}}
-
-                            
-                                {{-- <td>
-                                    <span class="badge bg-{{ $project->status_id ? 'success' : 'danger' }}">
-                                        {{ $project->email_verified_at ? __('Verify') : __('Not verify') }}
-                                    </span>
-                                </td> --}}
+                          
                                 <td>
                                     {!! actionBtn(route('task.create', ['project' => $project->id]), 'success', 'plus') !!}
                                     {!! actionBtn(route('all.show', ['project' => $project->id]), 'info', 'show') !!}
@@ -133,7 +116,7 @@
                         event.preventDefault()
                         let form = document.getElementById('delete-form');
                         form.setAttribute('action', element.getAttribute('href'))
-                        swalConfirm('Are you sure ?', `سيتم حذف المشروع .`, 'Yes, delete it!', () => {
+                        swalConfirm('Are you sure ?', `The project will be deleted .`, 'Yes, delete it!', () => {
                             form.submit()
                         })
                     }

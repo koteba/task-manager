@@ -36,7 +36,7 @@
 
                 <option value="IN_PROGRESS">تحت التنفيذ</option>
                 <option value="PENDING">قيد الانتظار</option>
-                <option value="REJECTED">مرفوض</option>
+                <option value="ACCEPTED">مقبول</option>
                 <option value="COMPLETED">مكتمل</option>
                 
 			</select>
